@@ -27,9 +27,10 @@ export function validateRequest(req, res, next) {
   const errors = validationResult(req);
 
   //  throw a error if there is a validation error
-  if (!errors.isEmpty()) console.log(errors.array()[0]?.msg);
+  // if (!errors.isEmpty()) console.log(errors.array()[0]?.msg);
   if (!errors.isEmpty()) {
-    throw new Error(errors.array()[0]?.msg);
+    const response = generateResponse(false, errors.array()[0]?.msg);
+    res.status(400).send(response);
   }
 
   next();
