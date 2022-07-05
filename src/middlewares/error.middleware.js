@@ -18,9 +18,7 @@ const errorLog = NodeLogger.createSimpleLogger({
  */
 export default (error, req, res, next) => {
   errorLog.error(error.message);
-  return res
-    .status(process.env.EXCEPTION_CODE)
-    .send(generateResponse(false, error.message));
+  return res.status(400).send(generateResponse(false, error.message));
 };
 
 export function validateRequest(req, res, next) {
@@ -30,7 +28,7 @@ export function validateRequest(req, res, next) {
   // if (!errors.isEmpty()) console.log(errors.array()[0]?.msg);
   if (!errors.isEmpty()) {
     const response = generateResponse(false, errors.array()[0]?.msg);
-    res.status(400).send(response);
+    return res.status(400).send(response);
   }
 
   next();
